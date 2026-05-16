@@ -27,9 +27,12 @@ ansible-playbook -c local -i localhost, ansible/playbook.yml
 chmod +x setup_kind.sh
 ./setup_kind.sh
 
+# Force add ubuntu to docker group (setup_kind.sh adds root)
+usermod -aG docker ubuntu
+
 # 6. Run Makefile as the ubuntu user with the docker group active
 # 'sg docker' applies the new group permissions instantly without a logout
-sudo -u ubuntu bash -c 'sg docker -c "cd /home/ubuntu/DevOps-Hackathon && make up"'
+sudo -u ubuntu bash -c 'sg docker -c "export PATH=$PATH:/usr/local/bin; cd /home/ubuntu/DevOps-Hackathon && make up"'
 
 # 7. Ensure Kubernetes config is properly owned by the ubuntu user
 if [ -d "/root/.kube" ]; then
