@@ -51,4 +51,4 @@ if [ -d "/home/ubuntu/.kube" ]; then
 fi
 
 echo "Initialization Complete!"
-# Trigger recreation
+# Trigger recreation 2
