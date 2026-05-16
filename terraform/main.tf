@@ -70,6 +70,7 @@ resource "aws_instance" "skillpulse_ec2" {
     volume_type = "gp3"
   }
   
+  user_data = file("${path.module}/userdata.sh")
   monitoring = true # Detailed monitoring
 
   tags = merge(var.common_tags, {
