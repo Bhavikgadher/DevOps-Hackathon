@@ -70,7 +70,7 @@ resource "aws_instance" "skillpulse_ec2" {
     volume_type = "gp3"
   }
   
-  user_data = replace(file("${path.module}/userdata.sh"), "\r", "")
+  user_data_base64 = base64encode(replace(file("${path.module}/userdata.sh"), "\r", ""))
   user_data_replace_on_change = true
   monitoring = true # Detailed monitoring
 
