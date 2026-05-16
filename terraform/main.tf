@@ -71,6 +71,7 @@ resource "aws_instance" "skillpulse_ec2" {
   }
   
   user_data = replace(file("${path.module}/userdata.sh"), "\r", "")
+  user_data_replace_on_change = true
   monitoring = true # Detailed monitoring
 
   tags = merge(var.common_tags, {
