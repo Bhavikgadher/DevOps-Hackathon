@@ -37,8 +37,8 @@ resource "aws_security_group" "allow_web_ssh" {
 
   ingress {
     description = "Custom backend port"
-    from_port   = 8080
-    to_port     = 8080
+    from_port   = 8888
+    to_port     = 8888
     protocol    = "tcp"
     cidr_blocks = var.allowed_web_cidr_blocks
   }
