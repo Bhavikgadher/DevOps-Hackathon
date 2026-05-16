@@ -25,9 +25,10 @@ metadata:
   name: grafana
   namespace: skillpulse
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: grafana
   ports:
     - port: 3000
       targetPort: 3000
+      nodePort: 30000

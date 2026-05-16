@@ -43,6 +43,22 @@ resource "aws_security_group" "allow_web_ssh" {
     cidr_blocks = var.allowed_web_cidr_blocks
   }
 
+  ingress {
+    description = "Grafana"
+    from_port   = 3000
+    to_port     = 3000
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_web_cidr_blocks
+  }
+
+  ingress {
+    description = "Prometheus"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = var.allowed_web_cidr_blocks
+  }
+
   egress {
     description = "Allow all outbound traffic"
     from_port   = 0
