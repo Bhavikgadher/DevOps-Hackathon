@@ -5,10 +5,8 @@ FRONTEND_IMAGE ?= trainwithshubham/skillpulse-frontend:latest
 
 .PHONY: up down build load apply status logs mysql restart
 
-up: ## One-shot: build images, create cluster, load images, apply manifests
-	$(MAKE) build
+up: ## One-shot: create cluster, apply manifests
 	kind create cluster --config k8s/kind-config.yaml --name $(CLUSTER)
-	$(MAKE) load
 	$(MAKE) apply
 	@echo
 	@echo "  SkillPulse is live at http://localhost:8888"
