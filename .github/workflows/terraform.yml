@@ -30,6 +30,14 @@ jobs:
         with:
           terraform_version: "1.5.0"
 
+      - name: Cache Terraform Providers
+        uses: actions/cache@v3
+        with:
+          path: terraform/.terraform
+          key: ${{ runner.os }}-terraform-${{ hashFiles('terraform/.terraform.lock.hcl') }}
+          restore-keys: |
+            ${{ runner.os }}-terraform-
+
       - name: Terraform Init
         id: init
         run: terraform init
@@ -40,13 +48,13 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan -out=tfplan -no-color
         env:
           TF_VAR_key_name: ${{ secrets.TF_VAR_KEY_NAME }}
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         id: apply
-        run: terraform apply -auto-approve -no-color
+        run: terraform apply -auto-approve -no-color tfplan
         env:
           TF_VAR_key_name: ${{ secrets.TF_VAR_KEY_NAME }}
