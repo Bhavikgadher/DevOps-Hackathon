@@ -35,7 +35,7 @@ data:
 
       - job_name: "nginx_status"
         static_configs:
-          - targets: ["localhost:9113"]
+          - targets: ["frontend:9113"]
 ---
 apiVersion: apps/v1
 kind: Deployment
