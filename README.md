@@ -373,6 +373,31 @@ docker-compose.yml      three services: db, backend, frontend
 
 ---
 
+## Advanced Features & Improvements (Hackathon Highlights)
+
+![Architecture Diagram](architecture.png)
+
+**1. Fully Automated, Zero-Downtime CI/CD Pipeline**
+We implemented a robust, multi-stage GitHub Actions pipeline that completely automates the deployment lifecycle. 
+*   **Continuous Integration:** On every push, the pipeline automatically runs security scans (Trivy, Gosec) and builds our frontend and backend Docker containers.
+*   **Continuous Deployment:** The pipeline dynamically pins our Kubernetes manifests to the exact Git Commit SHA to ensure immutable deployments, automatically updating the cluster without human intervention.
+
+**2. Infrastructure as Code (IaC) Optimization**
+*   We used **Terraform** to automate the provisioning of our AWS EC2 environment, including dynamic AMI lookups for security and strict Security Group ingress rules. 
+*   **Performance Tuning:** We optimized our Terraform GitHub Action to save and pass plan-files, skipping redundant remote-state refreshes and significantly reducing infrastructure deployment times.
+
+**3. Resilient Kubernetes Architecture**
+*   We transitioned the application into a localized Kubernetes cluster using `kind`, managed by **Kustomize** to cleanly separate our base application configurations from our observability stack.
+*   We specifically tuned the Kubernetes cluster topology (running a single-node control plane) to prevent Out-of-Memory (OOM) errors and ensure extreme stability on resource-constrained EC2 instances.
+
+**4. Comprehensive Observability Stack**
+We went beyond basic logging by building a complete, real-time monitoring stack inside the Kubernetes cluster:
+*   **Prometheus & Grafana:** Deployed a full metrics aggregation system with interactive Grafana dashboards securely exposed via NodePorts.
+*   **Nginx Sidecar Exporter:** We modified the frontend Nginx proxy to expose `stub_status` and attached an `nginx-prometheus-exporter` sidecar container to capture real-time web traffic metrics.
+*   **Node Exporter:** Deployed as a Kubernetes DaemonSet to continuously track the underlying EC2 hardware health (CPU, RAM, Disk I/O).
+
+---
+
 ## Where this goes next
 
 This is the **GitHub Actions** half of the masterclass. The pipeline currently deploys to a single EC2 via SSH + docker compose — a fine starting point, and the most common "first real pipeline" in the industry.
